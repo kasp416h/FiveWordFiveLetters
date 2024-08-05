@@ -1,0 +1,14 @@
+/Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/bin/Debug/net8.0/FiveWordsFiveLetters
+/Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/bin/Debug/net8.0/FiveWordsFiveLetters.deps.json
+/Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/bin/Debug/net8.0/FiveWordsFiveLetters.runtimeconfig.json
+/Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/bin/Debug/net8.0/FiveWordsFiveLetters.dll
+/Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/bin/Debug/net8.0/FiveWordsFiveLetters.pdb
+/Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/obj/Debug/net8.0/FiveWordsFiveLetters.GeneratedMSBuildEditorConfig.editorconfig
+/Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/obj/Debug/net8.0/FiveWordsFiveLetters.AssemblyInfoInputs.cache
+/Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/obj/Debug/net8.0/FiveWordsFiveLetters.AssemblyInfo.cs
+/Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/obj/Debug/net8.0/FiveWordsFiveLetters.csproj.CoreCompileInputs.cache
+/Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/obj/Debug/net8.0/FiveWordsFiveLetters.dll
+/Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/obj/Debug/net8.0/refint/FiveWordsFiveLetters.dll
+/Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/obj/Debug/net8.0/FiveWordsFiveLetters.pdb
+/Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/obj/Debug/net8.0/FiveWordsFiveLetters.genruntimeconfig.cache
+/Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/obj/Debug/net8.0/ref/FiveWordsFiveLetters.dll
