@@ -7,6 +7,7 @@
 /Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/obj/Debug/net8.0/FiveWordsFiveLetters.AssemblyInfoInputs.cache
 /Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/obj/Debug/net8.0/FiveWordsFiveLetters.AssemblyInfo.cs
 /Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/obj/Debug/net8.0/FiveWordsFiveLetters.csproj.CoreCompileInputs.cache
+/Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/obj/Debug/net8.0/FiveWordsFiveLetters.sourcelink.json
 /Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/obj/Debug/net8.0/FiveWordsFiveLetters.dll
 /Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/obj/Debug/net8.0/refint/FiveWordsFiveLetters.dll
 /Users/kasperhog/Repositories/FiveWordFiveLetters/FiveWordsFiveLetters/obj/Debug/net8.0/FiveWordsFiveLetters.pdb
