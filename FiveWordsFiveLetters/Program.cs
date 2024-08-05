@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Numerics;
 
 class Program
@@ -106,7 +100,7 @@ class Program
 
     private static int CountBits(int n)
     {
-        return System.Numerics.BitOperations.PopCount((uint)n);
+        return BitOperations.PopCount((uint)n);
     }
 
     private static int GetBitMask(string word)
