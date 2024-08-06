@@ -136,6 +136,8 @@ class Program
 
     private static string[] LoadWords()
     {
-        return File.ReadAllLines("./alpha_words.txt");
+        string directory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        string filePath = Path.Combine(directory, "alpha_words.txt");
+        return File.ReadAllLines(filePath);
     }
 }
