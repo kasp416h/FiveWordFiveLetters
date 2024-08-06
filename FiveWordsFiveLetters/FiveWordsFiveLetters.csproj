@@ -7,4 +7,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <!-- Release Configuration -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DefineConstants></DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
 </Project>
