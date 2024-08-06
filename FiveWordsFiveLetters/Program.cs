@@ -30,30 +30,14 @@ class Program
             masks[i] = GetBitMask(words[i]);
         });
 
-        var semaphore = new SemaphoreSlim(maxDegreeOfParallelism);
-        var tasks = new List<Task>();
-
         for (int i = masks.Length - 1; i >= 0; i--)
         {
             if (masks[i] != 0)
             {
                 int index = i;
-                semaphore.Wait();
-                tasks.Add(Task.Run(() =>
-                {
-                    try
-                    {
-                        FindFiveLetterWords(new List<int> { index }, masks[index], index - 1);
-                    }
-                    finally
-                    {
-                        semaphore.Release();
-                    }
-                }));
+                FindFiveLetterWords(new List<int> { index }, masks[index], index - 1);
             }
         }
-
-        Task.WaitAll(tasks.ToArray());
 
         Console.WriteLine(foundStuff.Count());
         watch.Stop();
@@ -65,9 +49,15 @@ class Program
         if (combinationIndices.Count == WordLength)
         {
             string combinationWord = string.Join(" ", combinationIndices.Select(index => words[index]));
-            Console.WriteLine(combinationWord);
-            foundStuff.Add(combinationWord);
-            return;
+            lock (foundStuff)
+            {
+                if (!foundStuff.Contains(combinationWord))
+                {
+                    Console.WriteLine(combinationWord);
+                    foundStuff.Add(combinationWord);
+                    return;
+                }
+            }
         }
 
         for (int i = startingIndex; i >= 0; i--)
