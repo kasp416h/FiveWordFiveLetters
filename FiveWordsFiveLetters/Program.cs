@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
 class Program
 {
@@ -10,8 +11,6 @@ class Program
     private static string[] words;
     private static int[] masks;
     private static Dictionary<char, int> charFrequency;
-    private static readonly int maxDegreeOfParallelism = Environment.ProcessorCount;
-
 
     static void Main(string[] args)
     {
@@ -37,7 +36,7 @@ class Program
             if (masks[i] != 0)
             {
                 int index = i;
-                Thread thread = new Thread(() => FindFiveLetterWords(new int[WordLength], 0, masks[index], index));
+                Thread thread = new Thread(() => FindFiveLetterWords(new Span<int>(new int[WordLength]), 0, masks[index], index));
                 threads.Add(thread);
                 thread.Start();
             }
@@ -53,15 +52,20 @@ class Program
         Console.WriteLine("Time {0} Ticks; {1} ms", watch.ElapsedTicks, watch.ElapsedMilliseconds);
     }
 
-    private static void FindFiveLetterWords(int[] combinationIndices, int depth, int combinationMask, int startingIndex)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void FindFiveLetterWords(Span<int> combinationIndices, int depth, int combinationMask, int startingIndex)
     {
         combinationIndices[depth] = startingIndex;
 
         if (depth == WordLength - 1)
         {
-            string combinationWord = string.Join(" ", combinationIndices.Select(index => words[index]));
-            Console.WriteLine(combinationWord);
-            foundStuff.Add(combinationWord);
+            var builder = new System.Text.StringBuilder();
+            for (int i = 0; i < WordLength; i++)
+            {
+                if (i > 0) builder.Append(' ');
+                builder.Append(words[combinationIndices[i]]);
+            }
+            foundStuff.Add(builder.ToString());
             return;
         }
 
@@ -72,11 +76,12 @@ class Program
             int newMask = combinationMask | masks[i];
             if (IsPromising(depth + 1, newMask, i))
             {
-                FindFiveLetterWords((int[])combinationIndices.Clone(), depth + 1, newMask, i);
+                FindFiveLetterWords(combinationIndices, depth + 1, newMask, i);
             }
         }
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static bool IsPromising(int currentCount, int newMask, int maxIndex)
     {
         int remainingWordsNeeded = WordLength - currentCount;
@@ -91,11 +96,13 @@ class Program
         return remainingWordsCount >= remainingWordsNeeded;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static int CountBits(int n)
     {
         return BitOperations.PopCount((uint)n);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static int GetBitMask(string word)
     {
         int mask = 0;
