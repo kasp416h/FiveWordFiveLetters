@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FiveWordsFiveLetters")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7ee665a59b1e20045a44bf085fc2968d21e24338")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+89d42d12f9812f61be56cc9bbdf08fa9a988f570")]
 [assembly: System.Reflection.AssemblyProductAttribute("FiveWordsFiveLetters")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FiveWordsFiveLetters")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

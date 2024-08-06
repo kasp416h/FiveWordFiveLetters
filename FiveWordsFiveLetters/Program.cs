@@ -22,7 +22,7 @@ class Program
         CalculateCharFrequency();
 
         words = words.Where(w => w.Length == WordLength && w.Distinct().Count() == WordLength)
-                     .OrderByDescending(word => word.Sum(c => charFrequency[c])).ToArray();
+                     .OrderBy(word => word.Sum(c => charFrequency[c])).ToArray();
 
         masks = new int[words.Length];
         Parallel.For(0, words.Length, i =>
@@ -30,46 +30,47 @@ class Program
             masks[i] = GetBitMask(words[i]);
         });
 
-        for (int i = masks.Length - 1; i >= 0; i--)
+        var tasks = new List<Task>();
+
+        for (int i = 0; i < masks.Length; i++)
         {
             if (masks[i] != 0)
             {
                 int index = i;
-                FindFiveLetterWords(new List<int> { index }, masks[index], index - 1);
+                tasks.Add(Task.Run(() => FindFiveLetterWords(new int[WordLength], 0, masks[index], index)));
             }
         }
+
+        Task.WaitAll(tasks.ToArray());
 
         Console.WriteLine(foundStuff.Count());
         watch.Stop();
         Console.WriteLine("Time {0} Ticks; {1} ms", watch.ElapsedTicks, watch.ElapsedMilliseconds);
     }
 
-    private static void FindFiveLetterWords(List<int> combinationIndices, int combinationMask, int startingIndex)
+    private static void FindFiveLetterWords(int[] combinationIndices, int depth, int combinationMask, int startingIndex)
     {
-        if (combinationIndices.Count == WordLength)
+        combinationIndices[depth] = startingIndex;
+
+        if (depth == WordLength - 1)
         {
             string combinationWord = string.Join(" ", combinationIndices.Select(index => words[index]));
             lock (foundStuff)
             {
-                if (!foundStuff.Contains(combinationWord))
-                {
-                    Console.WriteLine(combinationWord);
-                    foundStuff.Add(combinationWord);
-                    return;
-                }
+                Console.WriteLine(combinationWord);
+                foundStuff.Add(combinationWord);
             }
+            return;
         }
 
-        for (int i = startingIndex; i >= 0; i--)
+        for (int i = startingIndex - 1; i >= 0; i--)
         {
             if (masks[i] == 0 || (combinationMask & masks[i]) != 0) continue;
 
             int newMask = combinationMask | masks[i];
-            var newCombinationIndices = new List<int>(combinationIndices) { i };
-
-            if (IsPromising(combinationIndices.Count + 1, newMask, i))
+            if (IsPromising(depth + 1, newMask, i))
             {
-                FindFiveLetterWords(newCombinationIndices, newMask, i - 1);
+                FindFiveLetterWords((int[])combinationIndices.Clone(), depth + 1, newMask, i);
             }
         }
     }
@@ -84,7 +85,7 @@ class Program
             return false;
         }
 
-        int remainingWordsCount = maxIndex;
+        int remainingWordsCount = maxIndex + 1;
         return remainingWordsCount >= remainingWordsNeeded;
     }
 
