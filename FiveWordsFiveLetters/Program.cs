@@ -30,18 +30,23 @@ class Program
             masks[i] = GetBitMask(words[i]);
         });
 
-        var tasks = new List<Task>();
+        var threads = new List<Thread>();
 
         for (int i = 0; i < masks.Length; i++)
         {
             if (masks[i] != 0)
             {
                 int index = i;
-                tasks.Add(Task.Run(() => FindFiveLetterWords(new int[WordLength], 0, masks[index], index)));
+                Thread thread = new Thread(() => FindFiveLetterWords(new int[WordLength], 0, masks[index], index));
+                threads.Add(thread);
+                thread.Start();
             }
         }
 
-        Task.WaitAll(tasks.ToArray());
+        foreach (var thread in threads)
+        {
+            thread.Join();
+        }
 
         Console.WriteLine(foundStuff.Count());
         watch.Stop();
@@ -55,11 +60,8 @@ class Program
         if (depth == WordLength - 1)
         {
             string combinationWord = string.Join(" ", combinationIndices.Select(index => words[index]));
-            lock (foundStuff)
-            {
-                Console.WriteLine(combinationWord);
-                foundStuff.Add(combinationWord);
-            }
+            Console.WriteLine(combinationWord);
+            foundStuff.Add(combinationWord);
             return;
         }
 
