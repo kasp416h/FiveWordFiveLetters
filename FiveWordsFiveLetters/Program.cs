@@ -5,8 +5,9 @@ using System.Runtime.CompilerServices;
 
 class Program
 {
-    private static readonly int WordLength = 5;
-    private static readonly int TargetLength = WordLength * WordLength;
+    private static int WordLength;
+    private static int NumberOfWords;
+    private static int TargetLength;
     private static ConcurrentBag<string> foundStuff = new ConcurrentBag<string>();
     private static string[] words;
     private static int[] masks;
@@ -14,6 +15,14 @@ class Program
 
     static void Main(string[] args)
     {
+        Console.WriteLine("How many letters do you want in each word?");
+        WordLength = int.Parse(Console.ReadLine());
+
+        Console.WriteLine("How many words do you want to find?");
+        NumberOfWords = int.Parse(Console.ReadLine());
+
+        TargetLength = WordLength * NumberOfWords;
+
         var watch = new Stopwatch();
         words = LoadWords();
         watch.Start();
@@ -29,23 +38,18 @@ class Program
             masks[i] = GetBitMask(words[i]);
         });
 
-        var threads = new List<Thread>();
+        var tasks = new List<Task>();
 
         for (int i = 0; i < masks.Length; i++)
         {
             if (masks[i] != 0)
             {
                 int index = i;
-                Thread thread = new Thread(() => FindFiveLetterWords(new Span<int>(new int[WordLength]), 0, masks[index], index));
-                threads.Add(thread);
-                thread.Start();
+                tasks.Add(Task.Run(() => FindFiveLetterWords(new int[NumberOfWords], 0, masks[index], index)));
             }
         }
 
-        foreach (var thread in threads)
-        {
-            thread.Join();
-        }
+        Task.WaitAll(tasks.ToArray());
 
         Console.WriteLine(foundStuff.Count());
         watch.Stop();
@@ -53,18 +57,19 @@ class Program
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void FindFiveLetterWords(Span<int> combinationIndices, int depth, int combinationMask, int startingIndex)
+    private static void FindFiveLetterWords(int[] combinationIndices, int depth, int combinationMask, int startingIndex)
     {
         combinationIndices[depth] = startingIndex;
 
-        if (depth == WordLength - 1)
+        if (depth == NumberOfWords - 1)
         {
             var builder = new System.Text.StringBuilder();
-            for (int i = 0; i < WordLength; i++)
+            for (int i = 0; i < NumberOfWords; i++)
             {
                 if (i > 0) builder.Append(' ');
                 builder.Append(words[combinationIndices[i]]);
             }
+            Console.WriteLine(builder.ToString());
             foundStuff.Add(builder.ToString());
             return;
         }
@@ -84,7 +89,7 @@ class Program
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static bool IsPromising(int currentCount, int newMask, int maxIndex)
     {
-        int remainingWordsNeeded = WordLength - currentCount;
+        int remainingWordsNeeded = NumberOfWords - currentCount;
         int uniqueLettersNeeded = TargetLength - CountBits(newMask);
 
         if (uniqueLettersNeeded > remainingWordsNeeded * WordLength)
@@ -136,6 +141,8 @@ class Program
 
     private static string[] LoadWords()
     {
-        return File.ReadAllLines("./alpha_words.txt");
+        string directory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        string filePath = Path.Combine(directory, "alpha_words.txt");
+        return File.ReadAllLines(filePath);
     }
 }
