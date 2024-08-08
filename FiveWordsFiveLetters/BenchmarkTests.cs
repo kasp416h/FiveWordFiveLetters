@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 
+[MemoryDiagnoser]
 public class BenchmarkTests
 {
     private static readonly int WordLength = 5;
